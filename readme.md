@@ -74,9 +74,8 @@ These parts work together in a loop:
 ```
 
 - **View:** The `view` function takes the updated state and generates the new UI visuals.
-    
-    (contains rows and columns)
-    
+
+  (contains rows and columns)
 - **Render:** The updated UI is rendered on the screen.
 - **Repeat:** This loop continues, constantly updating the UI based on user interactions and state changes.
 
@@ -99,12 +98,8 @@ fn main() -> iced::Result {
 }
 ```
 
-![[https://nikolish.in/gs-with-iced-1](https://nikolish.in/gs-with-iced-1)](iced%20rs%205b42e01029bc4fc9a68996952510f238/Untitled.png)
+If you are a just getting started with the library, this trait offers a simpler interface.
 
-[https://nikolish.in/gs-with-iced-1](https://nikolish.in/gs-with-iced-1)
-
-If you are a just getting started with the library, this trait offers a simpler interface than `[Application](https://docs.rs/iced/0.12.1/iced/application/trait.Application.html)`.
-
-Unlike an `[Application](https://docs.rs/iced/0.12.1/iced/application/trait.Application.html)`, a `[Sandbox](https://docs.rs/iced/0.12.1/iced/trait.Sandbox.html)` cannot run any asynchronous actions or be initialized with some external flags. However, both traits are very similar and upgrading from a `[Sandbox](https://docs.rs/iced/0.12.1/iced/trait.Sandbox.html)` is very straightforward.
+Unlike an application, Sanbox cannot run any asynchronous actions or be initialized with some external flags. However, both traits are very similar and upgrading from a sandbox is very straightforward.
 
 Therefore, it is recommended to always start by implementing this trait and upgrade only once necessary.
