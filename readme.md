@@ -20,7 +20,7 @@
     }
 ```
 
-An Iced program is built with several key parts that work together to define the application's functionality and appearance. Here's a breakdown of the terms you mentioned:
+An Iced program is built with several key parts that work together to define the application's functionality and appearance. Here's a breakdown of the terms:
 
 **Imports:**
 
@@ -63,7 +63,9 @@ impl Sandbox for GroceryList {
 
 - The `title` is a string that sets the title of your application window.
 
-These parts work together in a loop:
+  ---
+
+### These parts work together in a loop:
 
 - **Initialization:** The `fn main` sets up the initial state and launches the UI loop.
 - **Event Handling:** When a user interacts with the UI, an event is generated.
