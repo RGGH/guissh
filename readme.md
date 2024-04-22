@@ -20,7 +20,7 @@
     }
 ```
 
-An Iced program is built with several key parts that work together to define the application's functionality and appearance. Here's a breakdown of the terms you mentioned:
+An Iced program is built with several key parts that work together to define the application's functionality and appearance. Here's a breakdown of the terms:
 
 **Imports:**
 
