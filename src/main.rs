@@ -3,14 +3,18 @@ use ssh2::Session;
 use std::io::Read;
 use std::net::TcpStream;
 
-use iced::widget::container;
+use iced::widget::image::Handle;
+
 use iced::{
     alignment::{Horizontal, Vertical},
     font::Family,
-    widget::{button, column, text, text::Shaping, Button, Column, Container, Text},
+    widget::{
+        button, column, container, text, text::Shaping, Button, Column, Container, Image, Renderer,
+        Row, Text, Theme,
+    },
     Alignment, Color, Font, Length, Sandbox, Settings,
 };
-use iced::{window, Point,Size};
+use iced::{window, Point, Size};
 
 fn main() -> iced::Result {
     MyApp::run(Settings {
@@ -54,12 +58,22 @@ impl Sandbox for MyApp {
     }
 
     fn view(&self) -> iced::Element<'_, Self::Message> {
+        let image: iced::widget::Image<Handle> = Image::new("resources/ferris.png")
+            .width(Length::Fill)
+            .height(Length::Fill);
+
+        let background: iced::widget::Container<'_, Self::Message, Theme, Renderer> =
+            Container::new(image)
+                .width(Length::Fill)
+                .height(Length::Fill);
+
         column![
             text("Ready?").style(Color::from_rgb(1., 0.6, 0.2)),
             container("SSH to ThinkCentre").padding(20),
             container(button("Connect").on_press(MyAppMessage::ButtonPressed))
                 .width(Length::Fill)
                 .align_x(Horizontal::Center),
+            Row::new().push(background) //.push(foreground)
         ]
         .into()
     }
