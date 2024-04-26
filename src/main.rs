@@ -63,7 +63,7 @@ impl Sandbox for MyApp {
         MyApp {
             status: String::new(),
             clear_button: button::State::new(),
-            text6: "ip".to_string(),
+            text6: "".to_string(),
         }
     }
     fn theme(&self) -> iced::Theme {
@@ -77,8 +77,8 @@ impl Sandbox for MyApp {
     fn update(&mut self, message: Self::Message) {
         match message {
             MyAppMessage::ButtonPressed => {
-                Status::Pressed;
-                con()
+                //Status::Pressed;
+                con(&self.text6)
             }
             MyAppMessage::Update6(s) => {
                 self.text6 = s;
@@ -107,17 +107,18 @@ impl Sandbox for MyApp {
                 .align_x(Horizontal::Center),
             Row::new().push(background),
             Row::new().padding(30).push(status_bar),
-            text("Enter IP address").style(Color::from_rgb(1., 0.6, 0.2)),
-            text_input("Enabled text input", self.text6.as_str())
-                .on_input(|s| MyAppMessage::Update6(s)),
+            text("Enter IP address:port number").style(Color::from_rgb(1., 0.6, 0.2)),
+            text("eg 192.168.1.12:22").style(Color::from_rgb(1., 0.9, 0.2)),
+            text_input("ip address:port", self.text6.as_str())
+                .on_input(MyAppMessage::Update6),
         ]
         .into()
     }
 }
 
-fn con() {
+fn con(tx: &str) {
     // Connect to the remote SSH server
-    let tcp = TcpStream::connect("192.168.1.12:22").unwrap();
+    let tcp = TcpStream::connect(tx).unwrap();
     let mut sess = Session::new().unwrap();
     sess.set_tcp_stream(tcp);
     sess.handshake().unwrap();
