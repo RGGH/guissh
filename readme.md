@@ -26,6 +26,8 @@
     }
 ```
 
+## Getting Started
+
 An Iced program is built with several key parts that work together to define the application's functionality and appearance. Here's a breakdown of the terms:
 
 **Imports:**
@@ -108,6 +110,6 @@ fn main() -> iced::Result {
 
 If you are a just getting started with the library, this trait offers a simpler interface.
 
-Unlike an application, Sanbox cannot run any asynchronous actions or be initialized with some external flags. However, both traits are very similar and upgrading from a sandbox is very straightforward.
+Unlike an application, Sandbox cannot run any asynchronous actions or be initialized with some external flags. However, both traits are very similar and upgrading from a sandbox is very straightforward.
 
 Therefore, it is recommended to always start by implementing this trait and upgrade only once necessary.
