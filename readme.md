@@ -1,8 +1,6 @@
-[![Rust](https://github.com/RGGH/guissh/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/guissh/actions/workflows/rust.yml)
-
 # iced.rs
 
-[https://github.com/RGGH/iced_tutorial](https://github.com/RGGH/iced_tutorial)<br>
+[https://github.com/RGGH/iced_tutorial](https://github.com/RGGH/iced_tutorial)`<br>`
 
 ### [YouTube iced GUI video](https://youtu.be/X9Hebeionj8)
 
@@ -13,18 +11,6 @@
 [https://github.com/iced-rs/awesome-iced?tab=readme-ov-file](https://github.com/iced-rs/awesome-iced?tab=readme-ov-file)
 
 [https://github.com/RGGH/iced_tutorial/blob/main/tutorial/first_app.md](https://github.com/RGGH/iced_tutorial/blob/main/tutorial/first_app.md)
-
-```rust
-    fn update(&mut self, message: Self::Message) {
-        match message {
-            // Update logic
-        }
-    }
-
-    fn view(&self) -> iced::Element<'_, Self::Message> {
-        // View logic
-    }
-```
 
 ## Getting Started
 
@@ -63,6 +49,18 @@ impl Sandbox for GroceryList {
 
 - The `update` function is called whenever the user interacts with your UI (like clicking a button or typing in a field). It receives the current application state and the event that triggered the update. Here, you update the state based on the user interaction.
 
+```rust
+    fn update(&mut self, message: Self::Message) {
+        match message {
+            // Update logic
+        }
+    }
+
+    fn view(&self) -> iced::Element<'_, Self::Message> {
+        // View logic
+    }
+```
+
 **view:**
 
 - The `view` function takes the current application state and translates it into the visual representation of your UI. This function defines how different UI elements are arranged and displayed on the screen.
@@ -70,7 +68,6 @@ impl Sandbox for GroceryList {
 **title:**
 
 - The `title` is a string that sets the title of your application window.
-
   ---
 
 ### These parts work together in a loop:
