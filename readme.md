@@ -1,6 +1,8 @@
+[![Rust](https://github.com/RGGH/guissh/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/guissh/actions/workflows/rust.yml)
 # iced.rs
 
-[https://github.com/RGGH/iced_tutorial](https://github.com/RGGH/iced_tutorial)
+[https://github.com/RGGH/iced_tutorial](https://github.com/RGGH/iced_tutorial)<br>
+### [YouTube iced GUI video : ](https://youtu.be/X9Hebeionj8)
 
 ## Examples
 
