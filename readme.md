@@ -1,6 +1,7 @@
 # iced.rs
 
 [https://github.com/RGGH/iced_tutorial](https://github.com/RGGH/iced_tutorial)
+YouTube iced GUI video : https://youtu.be/X9Hebeionj8
 
 ## Examples
 
