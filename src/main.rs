@@ -40,7 +40,8 @@ pub enum Status {
 #[derive(Debug, Clone)]
 enum MyAppMessage {
     ButtonPressed,
-    Update6(String),
+    UpdateIP(String),
+    UpdateUser(String),
     Submit6,
 }
 
@@ -53,7 +54,8 @@ enum Message {
 struct MyApp {
     status: String,
     clear_button: button::State,
-    text6: String,
+    text_ip: String,
+    text_user: String,
 }
 
 impl Sandbox for MyApp {
@@ -63,7 +65,8 @@ impl Sandbox for MyApp {
         MyApp {
             status: String::new(),
             clear_button: button::State::new(),
-            text6: "".to_string(),
+            text_ip: "".to_string(),
+            text_user: "".to_string(),
         }
     }
     fn theme(&self) -> iced::Theme {
@@ -78,11 +81,15 @@ impl Sandbox for MyApp {
         match message {
             MyAppMessage::ButtonPressed => {
                 //Status::Pressed;
-                con(&self.text6)
+                con(&self.text_ip,&self.text_user)
+
             }
-            MyAppMessage::Update6(s) => {
-                self.text6 = s;
-            }
+            MyAppMessage::UpdateIP(s) => {
+                self.text_ip = s;
+            },
+            MyAppMessage::UpdateUser(s) => {
+                self.text_user = s;
+            },
             MyAppMessage::Submit6 => todo!(),
         }
     }
@@ -107,16 +114,19 @@ impl Sandbox for MyApp {
                 .align_x(Horizontal::Center),
             Row::new().push(background),
             Row::new().padding(30).push(status_bar),
+            text("Enter username").style(Color::from_rgb(1., 0.6, 0.2)),
+            text_input("username", self.text_user.as_str())
+                .on_input(MyAppMessage::UpdateUser),
             text("Enter IP address:port number").style(Color::from_rgb(1., 0.6, 0.2)),
             text("eg 192.168.1.12:22").style(Color::from_rgb(1., 0.9, 0.2)),
-            text_input("ip address:port", self.text6.as_str())
-                .on_input(MyAppMessage::Update6),
+            text_input("ip address:port", self.text_ip.as_str())
+                .on_input(MyAppMessage::UpdateIP),
         ]
         .into()
     }
 }
 
-fn con(tx: &str) {
+fn con(tx: &str,user:&str) {
     // Connect to the remote SSH server
     let tcp = TcpStream::connect(tx).unwrap();
     let mut sess = Session::new().unwrap();
@@ -125,7 +135,7 @@ fn con(tx: &str) {
 
     // Try to authenticate with the first identity in the agent.
     // ssh certificate already on remote machine
-    sess.userauth_agent("rag").unwrap();
+    sess.userauth_agent(user).unwrap();
 
     // Make sure we succeeded
     assert!(sess.authenticated());
@@ -150,4 +160,6 @@ fn con(tx: &str) {
         Ok(0) => println!("{:?}", "Quit ok!"),
         _ => println!("{:?}", "error closing conn"),
     }
+
+
 }
