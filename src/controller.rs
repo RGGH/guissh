@@ -5,8 +5,12 @@ use std::sync::mpsc;
 use crate::Session;
 use crate::TcpStream;
 use std::io::Read;
+use tokio::io;
 
-pub fn con(tx: &str, user: &str) {
+
+
+#[tokio::main]
+pub async fn con(tx: &str, user: &str)-> io::Result<String> {
     // Connect to the remote SSH server
     let tcp = TcpStream::connect(tx).unwrap();
     let mut sess = Session::new().unwrap();
@@ -40,4 +44,5 @@ pub fn con(tx: &str, user: &str) {
         Ok(0) => println!("{:?}", "Quit ok!"),
         _ => println!("{:?}", "error closing conn"),
     }
+    Ok(s)
 }

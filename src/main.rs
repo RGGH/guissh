@@ -81,8 +81,15 @@ impl Sandbox for MyApp {
     fn update(&mut self, message: Self::Message) {
         match message {
             MyAppMessage::ButtonPressed => {
-                //Status::Pressed;
-                con(&self.text_ip, &self.text_user)
+                if let Ok(result) = con(&self.text_ip, &self.text_user) {
+        // Handle the successful result
+        // For example, update the SSH output in the GUI
+        self.ssh_output = result;
+    } else {
+        // Handle the error
+        eprintln!("Error executing SSH command");
+        // Optionally, update the GUI to display the error
+    }
             }
             MyAppMessage::UpdateIP(s) => {
                 self.text_ip = s;
@@ -132,7 +139,7 @@ impl Sandbox for MyApp {
             text("Enter IP address:port number").style(Color::from_rgb(1., 0.6, 0.2)),
             text("eg 192.168.1.12:22").style(Color::from_rgb(1., 0.9, 0.2)),
             text_input("ip address:port", self.text_ip.as_str()).on_input(MyAppMessage::UpdateIP),
-            container("output").padding(10).align_x(Horizontal::Center),
+            container(self.ssh_output.as_str()).padding(10).align_x(Horizontal::Center),
         ]
         .into()
     }
