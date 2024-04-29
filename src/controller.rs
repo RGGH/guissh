@@ -1,5 +1,5 @@
-use std::process::{Command, Stdio};
 use std::io::BufReader;
+use std::process::{Command, Stdio};
 use std::sync::mpsc;
 
 use crate::Session;
@@ -7,10 +7,8 @@ use crate::TcpStream;
 use std::io::Read;
 use tokio::io;
 
-
-
 #[tokio::main]
-pub async fn con(tx: &str, user: &str)-> io::Result<String> {
+pub async fn con(tx: &str, user: &str) -> io::Result<String> {
     // Connect to the remote SSH server
     let tcp = TcpStream::connect(tx).unwrap();
     let mut sess = Session::new().unwrap();

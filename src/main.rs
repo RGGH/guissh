@@ -22,7 +22,7 @@ fn main() -> iced::Result {
         window: window::Settings {
             size: Size {
                 width: 520.,
-                height: 520.,
+                height: 660.,
             },
             position: window::Position::Specific(Point { x: 900., y: 120. }),
             ..window::Settings::default()
@@ -30,7 +30,6 @@ fn main() -> iced::Result {
         ..Settings::default()
     })
 }
-
 
 #[derive(Debug, Clone)]
 enum MyAppMessage {
@@ -67,7 +66,7 @@ impl Sandbox for MyApp {
             text_ip: "".to_string(),
             text_user: "".to_string(),
             pick_list: Some("Choose a host".into()),
-            ssh_output: String::new()
+            ssh_output: String::new(),
         }
     }
     fn theme(&self) -> iced::Theme {
@@ -82,14 +81,14 @@ impl Sandbox for MyApp {
         match message {
             MyAppMessage::ButtonPressed => {
                 if let Ok(result) = con(&self.text_ip, &self.text_user) {
-        // Handle the successful result
-        // For example, update the SSH output in the GUI
-        self.ssh_output = result;
-    } else {
-        // Handle the error
-        eprintln!("Error executing SSH command");
-        // Optionally, update the GUI to display the error
-    }
+                    // Handle the successful result
+                    // For example, update the SSH output in the GUI
+                    self.ssh_output = result;
+                } else {
+                    // Handle the error
+                    eprintln!("Error executing SSH command");
+                    // Optionally, update the GUI to display the error
+                }
             }
             MyAppMessage::UpdateIP(s) => {
                 self.text_ip = s;
@@ -129,7 +128,7 @@ impl Sandbox for MyApp {
                     .map(|s| s.to_string())
                     .to_vec(),
                 self.pick_list.clone(),
-                |s| MyAppMessage::UpdateIP(s)
+                MyAppMessage::UpdateIP
             ))
             .align_x(Horizontal::Center)
             .width(Length::Fill),
@@ -139,7 +138,9 @@ impl Sandbox for MyApp {
             text("Enter IP address:port number").style(Color::from_rgb(1., 0.6, 0.2)),
             text("eg 192.168.1.12:22").style(Color::from_rgb(1., 0.9, 0.2)),
             text_input("ip address:port", self.text_ip.as_str()).on_input(MyAppMessage::UpdateIP),
-            container(self.ssh_output.as_str()).padding(10).align_x(Horizontal::Center),
+            container(self.ssh_output.as_str())
+                .padding(10)
+                .align_x(Horizontal::Center),
         ]
         .into()
     }

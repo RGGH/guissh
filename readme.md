@@ -1,7 +1,8 @@
 [![Rust](https://github.com/RGGH/guissh/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/guissh/actions/workflows/rust.yml)
+
 # iced.rs
 
-[https://github.com/RGGH/iced_tutorial](https://github.com/RGGH/iced_tutorial)`<br>`
+[https://github.com/RGGH/iced_tutorial](https://github.com/RGGH/iced_tutorial)
 
 ### [YouTube iced GUI video](https://youtu.be/X9Hebeionj8)
 
@@ -69,7 +70,7 @@ impl Sandbox for GroceryList {
 **title:**
 
 - The `title` is a string that sets the title of your application window.
-  ---
+  -------------------------------------------------------------------------
 
 ### These parts work together in a loop:
 
