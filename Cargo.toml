@@ -9,3 +9,4 @@ edition = "2021"
 iced = { version = "0.12.1", features = ["advanced", "image"] }
 rust-embed = "8.3.0"
 ssh2 = "0.9.4"
+tokio = "1.37.0"

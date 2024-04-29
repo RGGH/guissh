@@ -1,3 +1,7 @@
+use std::process::{Command, Stdio};
+use std::io::BufReader;
+use std::sync::mpsc;
+
 use crate::Session;
 use crate::TcpStream;
 use std::io::Read;

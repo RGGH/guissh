@@ -22,7 +22,7 @@ fn main() -> iced::Result {
         window: window::Settings {
             size: Size {
                 width: 520.,
-                height: 420.,
+                height: 520.,
             },
             position: window::Position::Specific(Point { x: 900., y: 120. }),
             ..window::Settings::default()
@@ -31,19 +31,14 @@ fn main() -> iced::Result {
     })
 }
 
-//pub enum Status {
-//Active,
-//Hovered,
-//Pressed,
-//Disabled,
-//}
 
 #[derive(Debug, Clone)]
 enum MyAppMessage {
     ButtonPressed,
     UpdateIP(String),
     UpdateUser(String),
-    Update3(String),
+    UpdatePickList(String),
+    SshOutput(String),
     DoNothing,
 }
 
@@ -58,7 +53,8 @@ struct MyApp {
     clear_button: button::State,
     text_ip: String,
     text_user: String,
-    pick_list_3: Option<String>,
+    pick_list: Option<String>,
+    ssh_output: String,
 }
 
 impl Sandbox for MyApp {
@@ -70,7 +66,8 @@ impl Sandbox for MyApp {
             clear_button: button::State::new(),
             text_ip: "".to_string(),
             text_user: "".to_string(),
-            pick_list_3: Some("Choose a host".into()),
+            pick_list: Some("Choose a host".into()),
+            ssh_output: String::new()
         }
     }
     fn theme(&self) -> iced::Theme {
@@ -93,7 +90,11 @@ impl Sandbox for MyApp {
             MyAppMessage::UpdateUser(s) => {
                 self.text_user = s;
             }
-            MyAppMessage::Update3(s) => self.pick_list_3 = Some(s),
+            MyAppMessage::UpdatePickList(s) => self.pick_list = Some(s),
+            MyAppMessage::SshOutput(output) => {
+                // Update the SSH output in the sandbox state
+                self.ssh_output.push_str(&output);
+            }
             MyAppMessage::DoNothing => {}
         }
     }
@@ -109,8 +110,6 @@ impl Sandbox for MyApp {
                 .height(Length::Fill);
         let status_bar = Text::new(&self.status).width(iced::Length::Fill).size(20);
 
-        let value = "Some text";
-
         column![
             container("").padding(20).align_x(Horizontal::Center),
             container(button("Connect").on_press(MyAppMessage::ButtonPressed))
@@ -122,7 +121,7 @@ impl Sandbox for MyApp {
                 ["192.168.1.12:22", "192.168.1.7:22", "10.10.10.33:22"]
                     .map(|s| s.to_string())
                     .to_vec(),
-                self.pick_list_3.clone(),
+                self.pick_list.clone(),
                 |s| MyAppMessage::UpdateIP(s)
             ))
             .align_x(Horizontal::Center)
@@ -133,6 +132,7 @@ impl Sandbox for MyApp {
             text("Enter IP address:port number").style(Color::from_rgb(1., 0.6, 0.2)),
             text("eg 192.168.1.12:22").style(Color::from_rgb(1., 0.9, 0.2)),
             text_input("ip address:port", self.text_ip.as_str()).on_input(MyAppMessage::UpdateIP),
+            container("output").padding(10).align_x(Horizontal::Center),
         ]
         .into()
     }
