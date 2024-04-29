@@ -1,22 +1,21 @@
 #![allow(unused)]
+/// refer to https://github.com/RGGH/iced_tutorial/tree/main
 use controller::con;
 mod controller;
-
-/// refer to https://github.com/RGGH/iced_tutorial/tree/main
-use ssh2::Session;
-use std::io::Read;
-use std::net::TcpStream;
 
 use iced::widget::image::Handle;
 use iced::{
     alignment::{Horizontal, Vertical},
     font::Family,
     widget::{
-        button, column, container, text, text::Shaping, text_input, Button, Column, Container,
-        Image, Renderer, Row, Text, Theme,
+        button, column, container, pick_list, text, text::Shaping, text_input, Button, Column,
+        Container, Image, Renderer, Row, Text, Theme,
     },
     window, Alignment, Color, Font, Length, Point, Sandbox, Settings, Size,
 };
+use ssh2::Session;
+use std::io::Read;
+use std::net::TcpStream;
 
 fn main() -> iced::Result {
     MyApp::run(Settings {
@@ -32,19 +31,20 @@ fn main() -> iced::Result {
     })
 }
 
-pub enum Status {
-    Active,
-    Hovered,
-    Pressed,
-    Disabled,
-}
+//pub enum Status {
+//Active,
+//Hovered,
+//Pressed,
+//Disabled,
+//}
 
 #[derive(Debug, Clone)]
 enum MyAppMessage {
     ButtonPressed,
     UpdateIP(String),
     UpdateUser(String),
-    Submit6,
+    Update3(String),
+    DoNothing,
 }
 
 #[derive(Debug, Clone)]
@@ -58,6 +58,7 @@ struct MyApp {
     clear_button: button::State,
     text_ip: String,
     text_user: String,
+    pick_list_3: Option<String>,
 }
 
 impl Sandbox for MyApp {
@@ -69,6 +70,7 @@ impl Sandbox for MyApp {
             clear_button: button::State::new(),
             text_ip: "".to_string(),
             text_user: "".to_string(),
+            pick_list_3: Some("Choose a host".into()),
         }
     }
     fn theme(&self) -> iced::Theme {
@@ -83,16 +85,16 @@ impl Sandbox for MyApp {
         match message {
             MyAppMessage::ButtonPressed => {
                 //Status::Pressed;
-                con(&self.text_ip,&self.text_user)
-
+                con(&self.text_ip, &self.text_user)
             }
             MyAppMessage::UpdateIP(s) => {
                 self.text_ip = s;
-            },
+            }
             MyAppMessage::UpdateUser(s) => {
                 self.text_user = s;
-            },
-            MyAppMessage::Submit6 => todo!(),
+            }
+            MyAppMessage::Update3(s) => self.pick_list_3 = Some(s),
+            MyAppMessage::DoNothing => {}
         }
     }
 
@@ -115,16 +117,23 @@ impl Sandbox for MyApp {
                 .width(Length::Fill)
                 .align_x(Horizontal::Center),
             Row::new().push(background),
+            Row::new().padding(10),
+            container(pick_list(
+                ["192.168.1.12:22", "192.168.1.7:22", "10.10.10.33:22"]
+                    .map(|s| s.to_string())
+                    .to_vec(),
+                self.pick_list_3.clone(),
+                |s| MyAppMessage::UpdateIP(s)
+            ))
+            .align_x(Horizontal::Center)
+            .width(Length::Fill),
             Row::new().padding(30).push(status_bar),
             text("Enter username").style(Color::from_rgb(1., 0.6, 0.2)),
-            text_input("username", self.text_user.as_str())
-                .on_input(MyAppMessage::UpdateUser),
+            text_input("username", self.text_user.as_str()).on_input(MyAppMessage::UpdateUser),
             text("Enter IP address:port number").style(Color::from_rgb(1., 0.6, 0.2)),
             text("eg 192.168.1.12:22").style(Color::from_rgb(1., 0.9, 0.2)),
-            text_input("ip address:port", self.text_ip.as_str())
-                .on_input(MyAppMessage::UpdateIP),
+            text_input("ip address:port", self.text_ip.as_str()).on_input(MyAppMessage::UpdateIP),
         ]
         .into()
     }
 }
-

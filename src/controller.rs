@@ -1,9 +1,8 @@
-use std::io::Read;
-use crate::TcpStream;
 use crate::Session;
+use crate::TcpStream;
+use std::io::Read;
 
-
-pub fn con(tx: &str,user:&str) {
+pub fn con(tx: &str, user: &str) {
     // Connect to the remote SSH server
     let tcp = TcpStream::connect(tx).unwrap();
     let mut sess = Session::new().unwrap();
@@ -37,6 +36,4 @@ pub fn con(tx: &str,user:&str) {
         Ok(0) => println!("{:?}", "Quit ok!"),
         _ => println!("{:?}", "error closing conn"),
     }
-
-
 }
