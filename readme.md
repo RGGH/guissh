@@ -6,7 +6,7 @@
 
 ### [YouTube iced GUI video](https://youtu.be/X9Hebeionj8)
 
-[screenshot](resources/screenshot.png)
+![screenshot](resources/screenshot.png)
 
 ## Examples
 
